@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito&family=Raleway&display=swap');
+*{
+    font-family: 'Nunito', sans-serif;
+    font-family: 'Raleway', sans-serif;
+}
+header{
+    background-color: #43766C;
+    color: #0b211c;
+	padding: 1rem 0;
+    font-size: 1.5rem;
+    text-decoration: none;
+    border-bottom: 3px solid #294a43;
+}
+.hello{
+    margin: 1rem;
+}
+.d-flex{
+    display: flex;
+}
+.container{
+    margin: 0 auto;
+    max-width: 95%;
+}
+.name{
+    display: inline;
+    margin-left: 0.5rem;
+}
+.menu ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    margin-left: auto;
+}
+.navigation{
+    text-decoration: none;
+    color: #0b211c;
+}
+.menu li{
+    display: inline;
+    margin-right: 5px;
+    padding: 10px;
+    text-decoration: none;
+}
+.menu{
+    display: inline;
+    margin-left: auto;
+}
+main{
+    background-color: #F8FAE5;
+}
+.about{
+    text-align: center;
+    font-size: 1rem;
+}
+.about h2{
+    margin: 1rem;
+    color: #21443d;
+}
+.about h3{
+    color: #21443d;
+}
+.about p{
+    color: #294a43;
+}
+.roads{
+    text-align: center;
+    font-size: 1rem;
+}
+.roads h2{
+    margin: 1rem;
+    color: #21443d;
+}
+.contacts{
+    margin: 0rem;
+    text-align: center;
+    font-size: 0.8rem;
+    line-height: 0.7rem;
+    background-color: #F8FAE5;
+}
+.contacts h2{
+    margin: 1rem;
+    color: #21443d;
+}
+.contacts p{
+    color: #294a43;
+}
+
