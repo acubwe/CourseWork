@@ -70,6 +70,14 @@ main{
     margin: 1rem;
     color: #21443d;
 }
+.roads table th{
+    color: #21443d;
+    background-color: #F8FAE5;
+}
+.roads table td{
+    color: #294a43;
+    background-color: #F8FAE5;
+}
 .contacts{
     margin: 0rem;
     text-align: center;
