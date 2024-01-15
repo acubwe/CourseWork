@@ -78,6 +78,9 @@ main{
     color: #294a43;
     background-color: #F8FAE5;
 }
+.roads button {
+    border-radius: 10px;
+}
 .contacts{
     margin: 0rem;
     text-align: center;

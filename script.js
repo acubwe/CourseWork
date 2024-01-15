@@ -3,12 +3,8 @@ const apiKey = "7a70d143-15d9-4666-8aab-21c06fcfd6f9"
 const mainUrl = "http://exam-2023-1-api.std-900.ist.mospolytech.ru"
 const routeUrl = "/api/routes"
 
-function selectRoute(event){
-    alert("sdkfl;")
-}
-
-
 const tbody = document.querySelector(".tbody");
+
 function addTableData(record) {
     const tr = document.createElement('tr');
     tr.id = record.id;
@@ -21,7 +17,7 @@ function addTableData(record) {
     const mainObject = document.createElement('td');
     mainObject.textContent = record.mainObject;
     tr.append(mainObject);
-    const tdBtn = document.createElement("td")
+    const tdBtn = document.createElement('button')
     tdBtn.textContent = "Выбрать";
     tdBtn.addEventListener("click", event => guidsData(tr, event));
     tr.append(tdBtn);
@@ -62,6 +58,7 @@ function getData() {
 }
 
 function guidsData(tr, event) {
+    tbodyguids.innerHTML = ""
     const guidsRoad = tr.id;
     const guidesUrl = `/api/routes/${guidsRoad}/guides`;
     const xhr = new XMLHttpRequest();
@@ -95,10 +92,24 @@ function addDataGuids(record) {
     workExperience.textContent = record.workExperience;
     tr.append(workExperience);
     const pricePerHour = document.createElement('td');
-    pricePerHour.textContent = record.pricePerHour;
+    pricePerHour.textContent = `${record.pricePerHour}₽`;
     tr.append(pricePerHour);
-    const tdBtn = document.createElement("td")
+    const tdBtn = document.createElement('button')
+    tdBtn.textContent = "Выбрать";
+    tdBtn.addEventListener("click", event => modal(record));
+    tdBtn.setAttribute("data-bs-toggle", "modal")
+    tdBtn.setAttribute("data-bs-target", "#exampleModal")
+    tr.append(tdBtn);
     tbodyguids.appendChild(tr)
+}
+
+const modalwindow = document.querySelector(".modal-dialog modal-dialog-centered")
+
+function modal(record) {
+    const name = document.querySelector('.guidname');
+    name.textContent = `ФИО гида: ${record.name}`
+    const cost = document.querySelector('.costroad');
+    cost.textContent = `Цена прогулки: ${record.pricePerHour}₽`;
 }
 
 window.addEventListener("DOMContentLoaded", ()=>{
