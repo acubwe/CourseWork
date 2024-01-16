@@ -57,8 +57,7 @@ function paginationRoads() {
         }
     });
     pagination.append(prevBtn);
-
-    for (curPage >= 2 let i = 1; i <= totalPages; i++) {
+    for (let i = Math.max(parseInt(curPage) - 2, 1); i <= Math.min(parseInt(curPage) + 2, totalPages); i++) {
         const numBtn = document.createElement("button")
         numBtn.textContent = i;
         numBtn.addEventListener('click', (event) => {
@@ -74,7 +73,6 @@ function paginationRoads() {
         }
         pagination.append(numBtn);
     }
-
     const nextBtn = document.createElement("button");
     nextBtn.textContent = 'Дальше';
     nextBtn.style.margin = '2px';
@@ -113,6 +111,7 @@ function getData() {
     xhr.send();
 }
 
+
 function guidsData(tr, event) {
     tbodyguids.innerHTML = ""
     const guidsRoad = tr.id;
@@ -131,6 +130,7 @@ function guidsData(tr, event) {
     };
     xhr.send();
 }
+
 
 const tbodyguids = document.querySelector(".tbody-guids")
 
@@ -159,7 +159,9 @@ function addDataGuids(record) {
     tbodyguids.appendChild(tr)
 }
 
+
 const modalwindow = document.querySelector(".modal-dialog modal-dialog-centered")
+
 
 function modal(record) {
     const name = document.querySelector('.guidname');
@@ -167,6 +169,7 @@ function modal(record) {
     const cost = document.querySelector('.costroad');
     cost.textContent = `Цена прогулки: ${record.pricePerHour}₽`;
 }
+
 
 window.addEventListener("DOMContentLoaded", ()=>{
     getData();
