@@ -73,13 +73,26 @@ main{
 .roads table th{
     color: #21443d;
     background-color: #F8FAE5;
+    text-align: center;
 }
 .roads table td{
+    text-align: center;
     color: #294a43;
     background-color: #F8FAE5;
 }
-.roads button {
-    border-radius: 10px;
+.tbody-guids {
+    background-color: #F8FAE5;
+}
+.pagination {
+    display: flex;
+    justify-content: center;
+    background-color: #dee0cc;    
+}
+.pagination button {
+    background-color: #F8FAE5;
+    border: none;
+    margin: 2px;
+    border-radius: 3px;
 }
 .contacts{
     margin: 0rem;

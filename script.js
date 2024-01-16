@@ -5,23 +5,30 @@ const routeUrl = "/api/routes"
 
 const tbody = document.querySelector(".tbody");
 
-function addTableData(record) {
-    const tr = document.createElement('tr');
-    tr.id = record.id;
-    const name = document.createElement('td');
-    name.textContent = record.name;
-    tr.append(name);
-    const description = document.createElement('td');
-    description.textContent = record.description;
-    tr.append(description);
-    const mainObject = document.createElement('td');
-    mainObject.textContent = record.mainObject;
-    tr.append(mainObject);
-    const tdBtn = document.createElement('button')
-    tdBtn.textContent = "Выбрать";
-    tdBtn.addEventListener("click", event => guidsData(tr, event));
-    tr.append(tdBtn);
-    tbody.appendChild(tr);
+let perPage = 3
+let curPage = 1
+let totalPages = 0
+
+function addTableData(records) {
+    tbody.innerHTML = '';
+    for (const record of records) {
+        const tr = document.createElement('tr');
+        tr.id = record.id;
+        const name = document.createElement('td');
+        name.textContent = record.name;
+        tr.append(name);
+        const description = document.createElement('td');
+        description.textContent = record.description;
+        tr.append(description);
+        const mainObject = document.createElement('td');
+        mainObject.textContent = record.mainObject;
+        tr.append(mainObject);
+        const tdBtn = document.createElement('button')
+        tdBtn.textContent = "Выбрать";
+        tdBtn.addEventListener("click", event => guidsData(tr, event));
+        tr.append(tdBtn);
+        tbody.appendChild(tr);
+    }
 
 }
 
@@ -36,6 +43,51 @@ function splitMainObject(value) {
         return value.split('-')
 }
 
+function paginationRoads() {
+    const pagination = document.querySelector(".pagination")
+    pagination.innerHTML = '';
+    const prevBtn = document.createElement("button");
+    prevBtn.textContent = 'Назад';
+    prevBtn.style.margin = '2px';
+    prevBtn.style.backgroundColor = 'none';
+    prevBtn.addEventListener('click', (event) => {
+        if (curPage > 1) {
+            curPage--;
+            getData();
+        }
+    });
+    pagination.append(prevBtn);
+
+    for (curPage >= 2 let i = 1; i <= totalPages; i++) {
+        const numBtn = document.createElement("button")
+        numBtn.textContent = i;
+        numBtn.addEventListener('click', (event) => {
+            const target = event.target;
+            curPage = target.textContent;
+            getData();
+        })
+        if (i == curPage) {
+            numBtn.style.backgroundColor = '#d0d2bf';
+        }
+        else {
+            numBtn.style.backgroundColor = '#F8FAE5';
+        }
+        pagination.append(numBtn);
+    }
+
+    const nextBtn = document.createElement("button");
+    nextBtn.textContent = 'Дальше';
+    nextBtn.style.margin = '2px';
+    nextBtn.style.backgroundColor = 'none';
+    nextBtn.addEventListener('click', (event) => {
+        if (curPage < totalPages) {
+            curPage++;
+            getData();
+        }
+    });
+    pagination.append(nextBtn);
+}
+
 
 function getData() {
     const xhr = new XMLHttpRequest();
@@ -44,6 +96,9 @@ function getData() {
     xhr.open('GET', url);
     xhr.onload = function() {
         const records = JSON.parse(xhr.response);
+        totalPages = Math.ceil(records.length / perPage)
+        const start = curPage * perPage - perPage;
+        const end = curPage * perPage;
         for (const record of records) {
             const select = document.querySelector('.form-select');
             for (const elem of splitMainObject(record.mainObject)) {
@@ -51,8 +106,9 @@ function getData() {
                 option.textContent = elem;
                 select.append(option);
             };
-            addTableData(record);
         }
+        addTableData(records.slice(start, end));
+        paginationRoads();
     }
     xhr.send();
 }
