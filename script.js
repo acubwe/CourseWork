@@ -26,11 +26,14 @@ function addTableData(records) {
         const tdBtn = document.createElement('button')
         tdBtn.textContent = "Выбрать";
         tdBtn.addEventListener("click", event => guidsData(tr, event));
+        tdBtn.addEventListener('click', event => getRoadName(record));
         tr.append(tdBtn);
         tbody.appendChild(tr);
     }
 
 }
+
+
 
 function splitMainObject(value) {
     console.log(value.match(/,/g)?.length)
@@ -124,7 +127,6 @@ function guidsData(tr, event) {
         const records = JSON.parse(xhr.response);
         console.log(guidesUrl);
         for (const record of records) {
-            console.log(record);
             addDataGuids(record);
         }
     };
@@ -148,11 +150,11 @@ function addDataGuids(record) {
     workExperience.textContent = record.workExperience;
     tr.append(workExperience);
     const pricePerHour = document.createElement('td');
-    pricePerHour.textContent = `${record.pricePerHour}₽`;
+    pricePerHour.textContent = `${record.pricePerHour}`;
     tr.append(pricePerHour);
     const tdBtn = document.createElement('button')
     tdBtn.textContent = "Выбрать";
-    tdBtn.addEventListener("click", event => modal(record));
+    tdBtn.addEventListener("click", event => modal(record, pricePerHour));
     tdBtn.setAttribute("data-bs-toggle", "modal")
     tdBtn.setAttribute("data-bs-target", "#exampleModal")
     tr.append(tdBtn);
@@ -162,12 +164,66 @@ function addDataGuids(record) {
 
 const modalwindow = document.querySelector(".modal-dialog modal-dialog-centered")
 
+function calculateCost(pricePerHour) {
+    const selectLenght = document.querySelector('.selectLenght').value;
+    const date = new Date(document.querySelector(".date").value);
+    const day = date.getDay();
+    let isThisDayOff = 0
+    if (day == 6 || day == 0) {
+        isThisDayOff = 1.5
+    }
+    else {
+        isThisDayOff = 1
+    }
+    const time = parseInt(document.querySelector('.time').value.slice(0,2))
+    let MorningOrEvening = 0
+    if (time <= 12 && time >= 9) {
+        MorningOrEvening = 400
+    }
+    else if (time >= 20 && time <= 23) {
+        MorningOrEvening = 1000
+    }
+    else {
+        MorningOrEvening = 0
+    }
+    const qualPerson = parseInt(document.querySelector('.qualPerson').value)
+    let numberOfVisitors = 0
+    if (qualPerson < 5) {
+        numberOfVisitors = 0
+    } 
+    else if (qualPerson >= 5 && qualPerson < 10) {
+        numberOfVisitors = 1000
+    }
+    else {
+        numberOfVisitors = 1500
+    }
+    const priceGuid = parseInt(pricePerHour.textContent)
+    let price = priceGuid * selectLenght * isThisDayOff + MorningOrEvening + numberOfVisitors
+    const finalPrice = document.querySelector('.costroad');
+    finalPrice.textContent = `Цена прогулки: ${price}₽`;
+}
 
-function modal(record) {
+function getRoadName(record) {
+    const road = document.querySelector(".excursion");
+    road.textContent = `Название маршрута: ${record.name}`;
+}
+
+function modal(record, pricePerHour) {
     const name = document.querySelector('.guidname');
     name.textContent = `ФИО гида: ${record.name}`
     const cost = document.querySelector('.costroad');
     cost.textContent = `Цена прогулки: ${record.pricePerHour}₽`;
+    const btn = document.getElementById('but');
+    btn.addEventListener('click', event => calculateCost(pricePerHour))
+    const LongRoad = document.querySelector('.selectLenght')
+    LongRoad.addEventListener('change', event => calculateCost(pricePerHour))
+    const dateRoad = document.querySelector(".date")
+    dateRoad.addEventListener('change', event => calculateCost(pricePerHour))
+    const timeRoad = document.querySelector('.time')
+    timeRoad.addEventListener('change', event => calculateCost(pricePerHour))
+    const Persons = document.querySelector('.qualPerson')
+    Persons.addEventListener('change', event => calculateCost(pricePerHour))
+
 }
 
 

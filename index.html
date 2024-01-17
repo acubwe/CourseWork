@@ -157,9 +157,36 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <p class="excursion"></p>
               <p class="guidname"></p>
-              
+              <p class="excursion"></p>
+              <p>
+                <label for="date">Дата:</label>
+                <input type="date" class="date" id="dateInput" value="2024-01-19">          
+              </p>
+              <p>
+                <label for="'time">Время:</label>     
+                <input type="time" class="time" id="time" value="09:00" min="09:00" max="23:00" step="1800">
+              </p>
+              <div class="row">
+                <div class="col">
+                  <label for="roadLenght">Продолжительность экскурсии</label>
+                </div>
+                <div class="col">
+                  <select class="selectLenght" aria-label="Default select example" id="roadLenght">
+                    <option value="1">1 час</option>
+                    <option value="2">2 часа</option>
+                    <option value="3">3 часа</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <label for="qualPerson">Количество человек</label>
+                </div>
+                <div class="col">
+                  <input type="number" value="1" min="1" max="20" class="qualPerson" id="qualPerson">
+                </div>
+              </div>
               <p style="font-weight: bold;">Дополнительные опции:</p>
               <div class="container text-center">
                 <div class="row">
@@ -175,15 +202,15 @@
                       <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
                       <label class="form-check-label" for="inlineCheckbox2">Сурдопереводчик</label>
                       <p>Если количество человек от 1 до 5, повышает стоимость на 15%, если от 5 до 10, на 25%. Сурдопереводчик недоступен, если количество человек выше 10.</p>
-                <p class="costroad"></p>
                     </div>
                   </div>
                 </div>
+              <p class="costroad"></p>
               </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-              <button type="button" class="btn btn-primary">Забронировать</button>
+              <button type="button" class="btn btn-primary" id="but">Забронировать</button>
             </div>
           </div>
         </div>
