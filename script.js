@@ -200,6 +200,26 @@ function calculateCost(pricePerHour) {
     const priceGuid = parseInt(pricePerHour.textContent)
     let price = priceGuid * selectLenght * isThisDayOff + MorningOrEvening + numberOfVisitors
     const finalPrice = document.querySelector('.costroad');
+    let quickGuid = 1;
+    if (document.querySelector('.quickStart').checked) {
+        quickGuid = 1.3;
+    }
+    let signTranlate = 1
+    if (document.querySelector('.signTrans').checked) {
+        if (qualPerson < 5) {
+            signTranlate = 1.15; 
+        }
+        else if (qualPerson < 10 && qualPerson >= 5) {
+            signTranlate = 1.25;
+        }
+        else {
+            document.querySelector('.signTrans').checked = false;
+        }
+    }
+    else {
+        signTranlate = 1;
+    }
+    price = Math.round(price * quickGuid * signTranlate);
     finalPrice.textContent = `Цена прогулки: ${price}₽`;
 }
 
@@ -223,6 +243,10 @@ function modal(record, pricePerHour) {
     timeRoad.addEventListener('change', event => calculateCost(pricePerHour))
     const Persons = document.querySelector('.qualPerson')
     Persons.addEventListener('change', event => calculateCost(pricePerHour))
+    const quick = document.querySelector('.quickStart');
+    quick.addEventListener('change', event => calculateCost(pricePerHour));
+    const sighTr = document.querySelector('.signTrans');
+    sighTr.addEventListener('change', event => calculateCost(pricePerHour));
 
 }
 
