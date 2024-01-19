@@ -108,7 +108,7 @@
                 <div class="row">
                   <div class="col">
                     <div class="mb-3">
-                      <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Поиск по названию">
+                      <input type="text" class="form-control" id="filterInput" placeholder="Поиск по названию">
                     </div>
                   </div>
                   <div class="col">
@@ -135,6 +135,30 @@
           </div>
         
         <h3>Доступные гиды по маршруту</h3>
+        <div class="container-sel">
+          <div class="row">
+            <div class="col">
+              <p class="selectforGuids">Язык гида</p>
+              <select class="selectLang" aria-label="Small select example">
+                <option selected>Выберете язык</option>
+              </select>
+            </div>
+            <div class="col">
+              <p class="selectforGuids">Опыт работы</p>
+              <div class="row">
+                <div class="col">
+                  <label for="begin">От </label>
+                  <input type="number" value="1" min="1" max="20" class="begin" id="begin">
+                </div>
+                <div class="col">
+                  <label for="end">До </label>
+                  <input type="number" value="1" min="1" max="20" class="end" id="end">
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+
         <table class="table">
           <thead>
             <tr>
@@ -161,7 +185,7 @@
               <p class="excursion"></p>
               <p>
                 <label for="date">Дата:</label>
-                <input type="date" class="date" id="dateInput" value="2024-01-19">          
+                <input type="date" class="date" id="dateInput" min="2024-01-18" value="2024-01-19">          
               </p>
               <p>
                 <label for="'time">Время:</label>     

@@ -10,6 +10,7 @@ header{
     font-size: 1.5rem;
     text-decoration: none;
     border-bottom: 3px solid #294a43;
+    font-weight: bold;
 }
 .hello{
     margin: 1rem;
@@ -72,13 +73,18 @@ main{
 }
 .roads table th{
     color: #21443d;
-    background-color: #F8FAE5;
+    background-color: #d0d2bf;
     text-align: center;
 }
 .roads table td{
     text-align: center;
     color: #294a43;
     background-color: #F8FAE5;
+}
+.btnRoads {
+    margin: 1rem;
+    border-radius: 5px;
+    border: solid 1px #21443d;
 }
 .tbody-guids {
     background-color: #F8FAE5;
@@ -94,18 +100,36 @@ main{
     margin: 2px;
     border-radius: 3px;
 }
+.container-sel {
+    margin-bottom: 1rem;
+}
+.selectforGuids {
+    margin: 0;
+}
+.selectLang {
+    width: 50%;
+    height: 50%;
+    border-radius: 5px;
+    border: solid 1px gray;
+}
+.begin {
+    border-radius: 5px;
+    border: solid 1px gray;
+}
+.end {
+    border-radius: 5px;
+    border: solid 1px gray;
+}
+.btnGuids {
+    margin: 0.4rem;
+    border-radius: 5px;
+    border: solid 1px #21443d;
+}
 .contacts{
     margin: 0rem;
     text-align: center;
     font-size: 0.8rem;
     line-height: 0.7rem;
     background-color: #F8FAE5;
-}
-.contacts h2{
-    margin: 1rem;
-    color: #21443d;
-}
-.contacts p{
     color: #294a43;
 }
-

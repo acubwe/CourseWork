@@ -2,7 +2,6 @@
 const apiKey = "7a70d143-15d9-4666-8aab-21c06fcfd6f9"
 const mainUrl = "http://exam-2023-1-api.std-900.ist.mospolytech.ru"
 const routeUrl = "/api/routes"
-
 const tbody = document.querySelector(".tbody");
 
 let perPage = 3
@@ -24,6 +23,7 @@ function addTableData(records) {
         mainObject.textContent = record.mainObject;
         tr.append(mainObject);
         const tdBtn = document.createElement('button')
+        tdBtn.classList.add('btnRoads');
         tdBtn.textContent = "Выбрать";
         tdBtn.addEventListener("click", event => guidsData(tr, event));
         tdBtn.addEventListener('click', event => getRoadName(record));
@@ -33,10 +33,7 @@ function addTableData(records) {
 
 }
 
-
-
 function splitMainObject(value) {
-    console.log(value.match(/,/g)?.length)
     if (value.match(/,/g)?.length>=value.match(/\./g)?.length && value.match(/,/g)?.length>value.match(/-/g)?.length) {
         return value.split(',');
     }
@@ -114,6 +111,34 @@ function getData() {
     xhr.send();
 }
 
+const filterByInput = document.querySelector('.form-control');
+filterByInput.addEventListener('input', (event) => {
+    const inputVal = event.target.value;
+    const url = new URL (routeUrl, mainUrl);
+    url.searchParams.set('api_key', apiKey);
+    let xhr = new XMLHttpRequest();
+    xhr.open('get', url);
+    xhr.send();
+    xhr.onload = function() {
+        const searchData = JSON.parse(this.response);
+        addTableData(searchData.filter(item => item.name.includes(inputVal)));
+    };
+})
+
+const filterBySelect = document.querySelector('.form-select')
+filterBySelect.addEventListener('input', (event) => {
+    const selectVal = event.target.value;
+    const url = new URL (routeUrl, mainUrl);
+    url.searchParams.set('api_key', apiKey);
+    let xhr = new XMLHttpRequest();
+    xhr.open('get', url);
+    xhr.send();
+    xhr.onload = function() {
+        const searchDataSel = JSON.parse(this.response);
+        addTableData(searchDataSel.filter(item => item.mainObject.includes(selectVal)));
+    };
+})
+
 
 function guidsData(tr, event) {
     tbodyguids.innerHTML = ""
@@ -125,10 +150,15 @@ function guidsData(tr, event) {
     xhr.open("GET", newUrl);
     xhr.onload = function() {
         const records = JSON.parse(xhr.response);
-        console.log(guidesUrl);
         for (const record of records) {
-            addDataGuids(record);
+            const selectLang = document.querySelector('.selectLang');
+            const option = document.createElement("option");
+            const elem = record.language;
+            console.log(elem)
+            option.textContent = elem;
+            selectLang.append(option)
         }
+        addDataGuids(records);
     };
     xhr.send();
 }
@@ -137,43 +167,43 @@ function guidsData(tr, event) {
 const tbodyguids = document.querySelector(".tbody-guids")
 
 
-function addDataGuids(record) {
-    const tr = document.createElement('tr');
-    tr.id = record.id;
-    const name = document.createElement('td');
-    name.textContent = record.name;
-    tr.append(name);
-    const language = document.createElement('td');
-    language.textContent = record.language;
-    tr.append(language);
-    const workExperience = document.createElement('td');
-    workExperience.textContent = record.workExperience;
-    tr.append(workExperience);
-    const pricePerHour = document.createElement('td');
-    pricePerHour.textContent = `${record.pricePerHour}`;
-    tr.append(pricePerHour);
-    const tdBtn = document.createElement('button')
-    tdBtn.textContent = "Выбрать";
-    tdBtn.addEventListener("click", event => modal(record, pricePerHour));
-    tdBtn.setAttribute("data-bs-toggle", "modal")
-    tdBtn.setAttribute("data-bs-target", "#exampleModal")
-    tr.append(tdBtn);
-    tbodyguids.appendChild(tr)
+function addDataGuids(records) {
+    for (const record of records) {
+        const tr = document.createElement('tr');
+        tr.id = record.id;
+        const name = document.createElement('td');
+        name.textContent = record.name;
+        tr.append(name);
+        const language = document.createElement('td');
+        language.textContent = record.language;
+        tr.append(language);
+        const workExperience = document.createElement('td');
+        workExperience.textContent = record.workExperience;
+        tr.append(workExperience);
+        const pricePerHour = document.createElement('td');
+        pricePerHour.textContent = `${record.pricePerHour}`;
+        tr.append(pricePerHour);
+        const tdBtn = document.createElement('button')
+        tdBtn.classList.add('btnGuids');
+        tdBtn.textContent = "Выбрать";
+        tdBtn.addEventListener("click", event => modal(record, pricePerHour));
+        tdBtn.setAttribute("data-bs-toggle", "modal")
+        tdBtn.setAttribute("data-bs-target", "#exampleModal")
+        tr.append(tdBtn);
+        tbodyguids.appendChild(tr)
+    }
 }
 
 
-const modalwindow = document.querySelector(".modal-dialog modal-dialog-centered")
 
+const modalwindow = document.querySelector(".modal-dialog modal-dialog-centered")
 function calculateCost(pricePerHour) {
     const selectLenght = document.querySelector('.selectLenght').value;
     const date = new Date(document.querySelector(".date").value);
     const day = date.getDay();
-    let isThisDayOff = 0
+    let isThisDayOff = 1
     if (day == 6 || day == 0) {
         isThisDayOff = 1.5
-    }
-    else {
-        isThisDayOff = 1
     }
     const time = parseInt(document.querySelector('.time').value.slice(0,2))
     let MorningOrEvening = 0
@@ -182,9 +212,6 @@ function calculateCost(pricePerHour) {
     }
     else if (time >= 20 && time <= 23) {
         MorningOrEvening = 1000
-    }
-    else {
-        MorningOrEvening = 0
     }
     const qualPerson = parseInt(document.querySelector('.qualPerson').value)
     let numberOfVisitors = 0
@@ -209,7 +236,7 @@ function calculateCost(pricePerHour) {
         if (qualPerson < 5) {
             signTranlate = 1.15; 
         }
-        else if (qualPerson < 10 && qualPerson >= 5) {
+        else if (qualPerson <= 10 && qualPerson >= 5) {
             signTranlate = 1.25;
         }
         else {
