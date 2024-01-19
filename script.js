@@ -109,6 +109,10 @@ function getData() {
         paginationRoads();
     }
     xhr.send();
+    xhr.onerror = function() {
+        console.log("Ошибка соединения");
+    };
+
 }
 
 const filterByInput = document.querySelector('.form-control');
@@ -123,6 +127,9 @@ filterByInput.addEventListener('input', (event) => {
         const searchData = JSON.parse(this.response);
         addTableData(searchData.filter(item => item.name.includes(inputVal)));
     };
+    xhr.onerror = function() {
+        console.log("Ошибка соединения");
+    };
 })
 
 const filterBySelect = document.querySelector('.form-select')
@@ -136,6 +143,9 @@ filterBySelect.addEventListener('input', (event) => {
     xhr.onload = function() {
         const searchDataSel = JSON.parse(this.response);
         addTableData(searchDataSel.filter(item => item.mainObject.includes(selectVal)));
+    };
+    xhr.onerror = function() {
+        console.log("Ошибка соединения");
     };
 })
 
@@ -161,6 +171,9 @@ function guidsData(tr, event) {
         addDataGuids(records);
     };
     xhr.send();
+    xhr.onerror = function() {
+        console.log("Ошибка соединения");
+    };
 }
 
 
